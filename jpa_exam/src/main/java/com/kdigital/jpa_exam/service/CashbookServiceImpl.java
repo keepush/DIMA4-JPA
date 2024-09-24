@@ -1,0 +1,129 @@
+package com.kdigital.jpa_exam.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kdigital.exam.entity.Cashbook;
+import com.kdigital.jpa_exam.util.MyEntityManager;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
+
+public class CashbookServiceImpl implements CashbookService{
+
+	@Override
+	public boolean insert(Cashbook cashbook) {
+		EntityManager manager = MyEntityManager.getManager();
+		EntityTransaction tx = manager.getTransaction();
+		
+		try {
+			tx.begin();
+			
+			manager.persist(cashbook);
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+			return false;
+		} finally {
+			manager.close();
+		}
+		return true;
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Cashbook> selectData(String date) {
+		List<Cashbook> list = new ArrayList<>();
+		
+		EntityManager manager = MyEntityManager.getManager();
+		EntityTransaction tx = manager.getTransaction();
+		
+		String query = "select c from Cashbook c where date_format(today, '%Y-%m') = :date";
+		try {
+			tx.begin();
+			
+			TypedQuery<Cashbook> tq = manager.createQuery(query, Cashbook.class);
+			
+			tq.setParameter("date", date);
+			
+			list = tq.getResultList();
+			tx.commit();
+			
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+
+		} finally {
+			manager.close();
+		}
+		return list;
+		
+	}
+	
+	@Override
+	public List<Cashbook> statistics(String date) {
+		List<Cashbook> list = new ArrayList<>();
+		EntityManager manager = MyEntityManager.getManager();
+		EntityTransaction tx = manager.getTransaction();
+		
+		String query = "select itemType, sum(amount) amount "
+					+ "From TotalAmount c "
+					+ "where date_format(today, '%Y-%m') = :date "
+					+ "group by itemType";
+		try {
+			tx.begin();
+			
+			TypedQuery<Cashbook> tq = manager.createQuery(query, Cashbook.class);
+			
+			tq.setParameter("date", date);
+			
+			list = tq.getResultList();
+			tx.commit();
+			
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+
+		} finally {
+			manager.close();
+		}
+		return list;
+	}
+	
+	   //JPQL(JAVA PERSISTENCE QUERY LANGUAGE) 을 사용해야 다양한 쿼리문을 실행시킬 수 있다
+	   @Override
+	   public List<Cashbook> selectAll() {
+	      EntityManager manager = MyEntityManager.getManager();
+	      EntityTransaction tx = manager.getTransaction();
+	      
+	      List<Cashbook> list = new ArrayList<>();//1개 이상의 데이터가 조회됐을 때
+	      
+	      try {
+	         tx.begin();
+	         
+	         // 문자열 안의 FITNESS 는 ENTITTY 객체를 의미하므로 대소문자 정확히 써야한다
+	         String query = "select c from Cashbook c";
+	         
+	         TypedQuery <Cashbook> tq = manager.createQuery(query, Cashbook.class);
+	         list = tq.getResultList();
+	         
+	         tx.commit();
+	         
+	      }catch(Exception e) {
+	         tx.rollback();
+	         e.printStackTrace();
+	         
+	      }
+	      return list;
+	 
+	   }
+
+	
+}

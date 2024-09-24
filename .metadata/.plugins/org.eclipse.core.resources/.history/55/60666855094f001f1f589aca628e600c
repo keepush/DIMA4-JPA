@@ -1,0 +1,60 @@
+package com.kdigital.jpa04;
+
+import java.time.LocalDate;
+
+import com.kdigital.jpa04.entity.Grade;
+import com.kdigital.jpa04.entity.Hotel;
+import com.kdigital.jpa04.util.MyEntityManager;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+
+public class HotelMain {
+
+	public static void main(String[] args) {
+//		Hotel hotel = new Hotel("h02", "인터콘티넨탈호텔", LocalDate.of(1991, 12, 20), Grade.S2);
+//		insert(hotel);
+		selectOne("h02");
+	}
+	
+	private static void insert(Hotel hotel) {
+		EntityManager manager = MyEntityManager.getManager();
+		EntityTransaction tx = manager.getTransaction();
+		
+		try {
+			tx.begin();
+			manager.persist(hotel);
+			
+			System.out.println("저장 완료");
+			tx.commit();
+		} catch(Exception e) {
+			System.out.println("저장 실패");
+			tx.rollback();
+			e.printStackTrace();
+		} finally {
+			manager.close();
+		}
+	
+	}
+	
+	private static Hotel selectOne(String hotelId) {
+		EntityManager manager = MyEntityManager.getManager();
+		EntityTransaction tx = manager.getTransaction();
+		
+		Hotel hotel = null;
+		
+		try {
+			tx.begin();
+			
+			hotel = manager.find(Hotel.class, hotelId);
+			tx.commit();
+		} catch(Exception e) {
+			System.out.println("조회 실패");
+			tx.rollback();
+			e.printStackTrace();
+		} finally {
+			manager.close();
+		}
+		System.out.println(hotel);
+	}
+}

@@ -1,0 +1,59 @@
+package com.kdigital.jpa03.service;
+
+import java.util.List;
+
+import com.kdigital.jpa03.entity.Fitness;
+import com.kdigital.jpa03.util.MyEntityManager;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+
+public class FitnessServiceImpl implements FitnessService{
+
+	@Override
+	public boolean insert(Fitness fitness) {
+		EntityManager manager = MyEntityManager.getManager();
+		EntityTransaction tx = manager.getTransaction();
+		
+		try {
+			tx.begin();
+			
+			manager.persist(fitness);
+			tx.commit();
+			
+		} catch(Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+			return false;
+		} finally {
+			manager.close();
+		}
+		return true;
+	}
+
+	@Override
+	public Fitness selectOne(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean update(Fitness fitness) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Fitness> selectAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+}

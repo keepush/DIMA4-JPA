@@ -1,0 +1,5 @@
+package com.kdigital.exam.entity;
+
+public class TotalAmount {
+
+}

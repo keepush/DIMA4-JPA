@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.kdigital.jpa01.entity.User"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa02.entity.Member"/>
+    <fullyQualifiedTypeName name="java.lang.reflect.Member"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Persistence"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa04.util.MyEntityManager"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa04.entity.Grade"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GenerationType"/>
+    <fullyQualifiedTypeName name="com.kdigital.exam.entity.ItemType"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.EnumType"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa_exam.util.MyEntityManager"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.EntityManager"/>
+    <fullyQualifiedTypeName name="lombok.Setter"/>
+    <fullyQualifiedTypeName name="lombok.Getter"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Embedded"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa05.util.MyEntityManager"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa05.entity.Address"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa05.entity.Hotel"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa05.entity.Grade"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
+    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.ToString"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.OneToMany"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.JoinColumn"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.OrderColumn"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa06.SurveyMain"/>
+    <fullyQualifiedTypeName name="com.kdigital.jpa06.entity.Question"/>
+</qualifiedTypeNameHistroy>

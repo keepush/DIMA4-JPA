@@ -1,0 +1,190 @@
+package com.kdigital.jpa_exam.ui;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Scanner;
+
+import com.kdigital.exam.entity.Cashbook;
+import com.kdigital.exam.entity.ItemType;
+import com.kdigital.jpa_exam.service.CashbookServiceImpl;
+
+
+
+public class CashbookUI {
+	Scanner keyin = new Scanner(System.in);
+	CashbookServiceImpl service = new CashbookServiceImpl();
+	
+	
+	// 생성자
+	public CashbookUI() {
+		String choice;
+		
+		while(true) {
+			menu();
+			choice = keyin.next();
+			
+			switch(choice) {
+			case "1" : create();   break;
+			case "2" : retrieve(); break;   // 년도(4) + 월(2)
+//			case "3" : delete();   break;
+//			case "4" : statistics(); break;
+			case "0" : 
+				System.out.println("## 프로그램을 종료합니다.");
+				return;
+			}
+		}
+	} 
+	
+
+	private void create() {
+		System.out.println("\n<< 지출 내역 입력 >>");
+		
+		int number, amount;		// 항목 번호 입력
+		String detail, note;
+		ItemType type = null;
+		
+		System.out.print("1 (식비) / 2 (문화예술) / 3 (미용(의복)) / 4 (교통비) / 5 (경조사비) / 6 (금융(저축 등)) / 7 (기타)");
+		System.out.print("## 항목번호 : ");
+		number = keyin.nextInt();
+		
+		switch(number) {
+		case 1 : type = ItemType.식비; break;
+		case 2 : type = ItemType.문화예술; break;
+		case 3 : type = ItemType.미용; break;
+		case 4 : type = ItemType.교통; break;
+		case 5 : type = ItemType.경조사; break;
+		case 6 : type = ItemType.금융; break;
+		case 7 : type = ItemType.기타; break;
+		}
+		
+		keyin.nextLine();   // 버퍼 비우기
+		
+		System.out.print("## 자세한 내역 : ");
+		detail = keyin.nextLine();
+		
+		System.out.print("## 금액 : ");
+		amount = keyin.nextInt();
+		
+		keyin.nextLine();	// 버퍼 비우기
+		System.out.print("## 메모할 내용 : ");
+		note = keyin.nextLine();
+		
+		Cashbook cashbook = new Cashbook(type, detail, amount, note);
+		
+		boolean result = service.insert(cashbook);
+		if(result) {
+			System.out.println("1개의 항목이 저장되었습니다.");	
+		} else {
+			System.out.println("## 저장 실패");
+		}
+	}
+
+//	private void delete() {
+//		System.out.println("\n<< 내역 삭제 >>");
+//		
+//		int year, month;
+//		
+//		System.out.print("## 년도를 2자리로 입력하세요 ");
+//		year = keyin.nextInt();
+//		System.out.print("## 월을 2자리로 입력하세요 ");
+//		month = keyin.nextInt();
+//
+//		Fitness fitness = service.selectOne(id);
+//		if(fitness == null) {
+//			System.out.println("## 입력한 아이디의 회원이 없습니다.");
+//			return;
+//		}
+//		
+//		System.out.print("## 탈퇴 하시겠습니까? (y/n)");
+//		check = keyin.next();
+//		
+//		if(!(check.equals("Y") || check.equals("y"))) {
+//			System.out.println("## 탈퇴 작업이 중단되었습니다.");
+//			return;
+//		}
+//		
+//		boolean result = service.delete(id);
+//		
+//		if(result) {		
+//			System.out.println("## 탈퇴가 완료되었습니다.\n");	
+//		} else {
+//			System.out.println("## 탈퇴 실패");
+//		}
+//	}
+//	
+	// 지출 내역 조회
+	private void retrieve() {
+		System.out.println("\n<< 월별 지출 보기 >>");
+		
+		String date = makeDate();
+		System.out.println(date);
+//		List<Cashbook> list = service.selectData(date);
+//		
+//		if (list.size() == 0) {
+//			System.out.println("조회된 날짜의 데이터가 없습니다.");
+//			return;
+//		}
+//		
+//		System.out.println("## 조회된 데이터의 개수 : " + list.size());
+//		
+//		// 출력
+//		list.forEach((data) -> System.out.println(data));
+//	}
+	
+	
+	private void statistics() {
+		
+	}
+
+	
+	private String makeDate() {
+		String year, month;
+		String date = null;
+		
+		keyin.nextLine();
+		
+		System.out.print("## 년도를 4자리로 입력 : ");
+		year = keyin.nextLine();
+		
+		try {
+			if(year.length() != 4) {
+				throw new Exception("## 데이터가 잘못 입력되었습니다.");
+			}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+		
+		System.out.print("## 월을 2자리로 입력 : ");
+		month = keyin.nextLine();
+		
+		try {
+			if(month.length() != 2) {
+				throw new Exception("## 데이터가 잘못 입력되었습니다.");
+			}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+		
+		date = year + "-" + month;
+		return date;
+		
+	}
+	
+//	/**
+//	 * 메뉴를 화면에 출력
+//	 * C(Create), R(Retrieve), U(Update), D(Delete)
+//	 */
+	private void menu() {
+		System.out.println("==== [지출 관리] ==");
+		System.out.println("   1) 지출 내역 입력");
+		System.out.println("   2) 지출 내역 조회");
+		System.out.println("   3) 내역 삭제");
+		System.out.println("   4) 지출 통계보기");
+		System.out.println("   0) 종  료");
+		System.out.println("-----------------------");
+		System.out.print  ("        # 선택: ");
+		
+	}
+}
